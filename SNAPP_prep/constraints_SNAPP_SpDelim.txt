@@ -1,0 +1,1 @@
+monophyletic	NA	MuLiz,MuCep,MuSpS,MuSpG,MuSpA,MuSpH,MuSpK,MuSpC,MuSpD,MuSpE,MuSpF,MuSpJ,MuSpB,MuSpL,MuSpQ,MucLi

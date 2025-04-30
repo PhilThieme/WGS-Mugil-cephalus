@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+#PBS -q sequentiel
+#PBS -l walltime=06:00:00
+#PBS -l mem=24g
+#PBS -N 11_bcf_allelicfilter
+
+DATADIRECTORY=path/to/working/directory
+DATAINPUT=$DATADIRECTORY/05_SNP_table
+BCFLIBENV="path to bcftools executables"
+
+cd $DATAINPUT
+
+$BCFLIBENV
+
+bcftools view -m2 -M2 run_PI-4501nd-90.vcf -o run_PI1-4501ndmax-90BI.vcf
+conda deactivate 

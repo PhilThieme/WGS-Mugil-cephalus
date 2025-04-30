@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#PBS -q sequentiel
+#PBS -l walltime=01:00:00
+#PBS -l mem= g
+#PBS -N 07_vcftools_remove
+
+DATADIRECTORY=Path/to/working/directory
+DATAINPUT=$DATADIRECTORY/05_SNP_table
+
+VCFTOOLSENV="path to vcftools executable"
+
+cd $DATAINPUT
+$VCFTOOLSENV
+
+vcftools --vcf mugil_snp.vcf --out mugil_PI --remove remove.txt --recode --recode-INFO-all
+
+conda deactivate

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#PBS -q sequentiel
+#PBS -l mem= gb
+#PBS -l walltime=01:00:00
+#PBS -N 19_beast_spdelim_ANALYSIS
+
+DATADIRECTORY=path/to/working/directory
+DATAINPUT=$DATADIRECTORY/08_SNAPP/SpDelim/runA
+
+cd $DATAINPUT
+
+for file in run*.sh; do qsub $file; done
+

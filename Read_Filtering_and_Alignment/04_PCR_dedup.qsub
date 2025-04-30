@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#PBS -q sequentiel
+#PBS -l mem= gb
+#PBS -l walltime=03:00:00
+#PBS -J 1-39
+#PBS -N 06_PCR_dedup
+
+DATADIRECTORY=Path/to/working/directory
+DATAINPUT=$DATADIRECTORY/04_mapped
+DATAOUTPUT=$DATADIRECTORY/04_mapped
+PICARD_TOOLS=$DATADIRECTORY/local-programs/picard-tools-1.119
+
+NAME=$(cat $DATADIRECTORY/00_scripts/base.txt | awk "NR==${PBS_ARRAY_INDEX}")
+echo -e ${PBS_ARRAY_INDEX}"\t"${NAME} >> $DATADIRECTORY/00_scripts/06_bwa_remap_array_table.txt
+
+cd $DATAINPUT
+/appli/java/jdk1.8.0_66/bin/java -jar -Djava.io.tmpdir=$SCRATCH $PICARD_TOOLS/MarkDuplicates.jar I=${NAME}_paired.sorted.bam O=${NAME}_paired.sorted_MD.bam M=${NAME}_paired.sorted_metrics.txt ASSUME_SORTED=TRUE VALIDATION_STRINGENCY=SILENT REMOVE_DUPLICATES=TRUE CREATE_INDEX=TRUE
+
+

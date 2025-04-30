@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#PBS -q sequentiel
+#PBS -l walltime=24:00:00
+#PBS -l mem= g
+#PBS -N 06_vcffilter_TYPE
+
+DATADIRECTORY=path/to/working/directory
+DATAINPUT=$DATADIRECTORY/05_SNP_table
+VCFLIBENV="path to vcflib executables"
+
+$VCFLIBENV
+cd $DATAINPUT
+
+vcffilter -f "TYPE = snp" mugil_raw.vcf > run7-4501.vcf
+conda deactivate

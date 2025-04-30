@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#PBS -q omp
+#PBS -l ncpus=
+#PBS -l mem= gb
+#PBS -l walltime=72:00:00
+#PBS -N 20_beast_time
+
+DATADIRECTORY=path/to/working/directory
+DATAINPUT=$DATADIRECTORY/08_SNAPP/Time
+
+cd $DATAINPUT
+
+source /etc/profile.d/modules.sh
+module load singularity/3.6.4
+sif=/appli/bioinfo/beast2/2.6.7/singularity/beast2-2.6.7.sif
+
+singularity exec -B $DATINPUT ${sif} beast -seed 123456 -threads 72 -instances 72 -beagle_SSE -beagle_scaling dynamic SNAPP_TIME.xml >& $PBS_JOBNAME.e${PBS_JOBID%.*} 2>&1
+
+##optional command: -resume

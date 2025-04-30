@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#PBS -q sequentiel
+#PBS -l walltime=24:00:00
+#PBS -l mem= g
+#PBS -N 08_vcffilter_readdepth
+
+DATADIRECTORY=path/to/working/directory
+DATAINPUT=$DATADIRECTORY/05_SNP_table
+VCFLIBENV="path to vcflib executables"
+
+$VCFLIBENV
+cd $DATAINPUT
+
+vcffilter -g " DP > 4 & DP < 501 " run_PI.vcf > run_PI-4501.vcf
+conda deactivate

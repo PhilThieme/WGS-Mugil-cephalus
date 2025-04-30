@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+#PBS -q sequentiel
+#PBS -l walltime=24:00:00
+#PBS -l mem= g
+#PBS -N 10_vcftools_missing
+
+DATADIRECTORY=path/to/working/directory
+DATAINPUT=$DATADIRECTORY/05_SNP_table
+VCFTOOLSENV="path to vcftools executables"
+
+cd $DATAINPUT
+$VCFTOOLSENV
+
+vcftools --maf 0.01 --max-missing-count 0.9 --vcf run_PI-4501nd.vcf --recode --recode-INFO-all --out run_PI-4501nd-90.vcf
+conda deactivate
+

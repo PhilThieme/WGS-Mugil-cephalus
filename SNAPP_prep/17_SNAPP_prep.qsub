@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+#PBS -q sequentiel
+#PBS -l walltime=01:00:00
+#PBS -l mem= g
+#PBS -N 17_snapp_prep
+
+DATADIRECTORY=path/to/working/directory
+DATAINPUT=$DATADIRECTORY/08_SNAPP/preparation
+
+cd $DATAINPUT
+
+##ruby script located in DATAINPUT
+##list with all samples and associated species necessary
+##file containing constraints necessary
+
+# Species delimitation:
+ruby snapp_prep.rb -v run_PI1-4501ndmax-90BI.vcf -t samples_SNAPP_SpDelim.txt -c constraints_SNAPP_SpDelim.txt -m 10000 -q 5000 -n true -x SNAPP_SpDelim.xml -o SNAPP_SpDelim
+
+# Time calibration:
+ruby snapp_prep.rb -v run_PI1-4501ndmax-90BI.vcf -t samples_SNAPP_time.txt -c constraints_SNAPP_time.txt -m 10000 -q 5000 -n true -x SNAPP_TIME.xml -o SNAPP_TIME
+
+

@@ -1,0 +1,3 @@
+lognormal(0,26,0.22)    crown   MuBan,MuCep,MuLiz,MuSpA,MuSpB,MuSpC,MuSpD,MuSpE,MuSpF,MuSpG,MuSpH,MuSpJ,MuSpK,MuSpL,MuSpQ,MuSpS,MucLi
+lognormal(0,4.5,0.25)   crown   MuCep,MuLiz,MuSpA,MuSpB,MuSpC,MuSpD,MuSpE,MuSpF,MuSpG,MuSpH,MuSpJ,MuSpK,MuSpL,MuSpQ,MuSpS,MucLi
+

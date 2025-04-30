@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#PBS -q sequentiel
+#PBS -l walltime=04:00:00
+#PBS -l mem= g
+#PBS -N 01_multiQC
+
+DATADIRECTORY=Path/to/working/directory
+DATAINPUT=$DATADIRECTORY/02_data/raw_QC/
+DATAOUTPUT=$DATADIRECTORY/02_data/multi_QC
+MULTI="path to multiqc executable"
+
+#Load environment
+$MULTI
+
+multiqc $DATAINPUT -o $DATAOUTPUT
+
+

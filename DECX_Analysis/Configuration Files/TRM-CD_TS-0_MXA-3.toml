@@ -1,0 +1,33 @@
+# Mugil cephalus - Biogeography
+
+[input_files]
+tree = "time_cali_phyl.new"
+data = "DISTRIBUTION.txt"
+rate_matrix = "RATES_TRM-CD_TS-0.txt"
+adjacency = "ADJACENCY_TS-0.txt"
+
+[parameters]
+ancestral_states = true 
+report = "states"
+classic_vicariance = true
+rapid_anagenesis = false
+
+periods = [27]	
+
+[algorithm]
+max_iterations = 10000
+stopping_precision = 0.0001
+
+# --- Geographical parameters --------------------------------------------------
+[areas]
+# names = ["NEP", "CEP", "SEP", "NWA", "CWA", "SWA", "NEA", "CEA", "TSA", "WIP", "CIP", "NWP", "TAA", "EIP"]
+names = "NEP CEP SEP NWA CWA SWA NEA CEA TSA WIP CIP NWP TAA EIP"
+
+[areas.distributions]
+max = 3
+constraint = "include"
+
+# ------------------------------------------------------------------------------
+
+[output]
+file_tag = "TRM-CD_TS-0_MXA-3"

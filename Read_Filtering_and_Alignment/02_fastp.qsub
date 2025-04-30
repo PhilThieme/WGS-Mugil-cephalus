@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+#PBS -q omp
+#PBS -l walltime=12:00:00
+#PBS -l ncpus=
+#PBS -l mem= g
+#PBS -J 1-39
+#PBS -N 02_fastp
+
+DATADIRECTORY=path/to/working/directory
+DATAINPUT=$DATADIRECTORY/02_data
+DATAOUTPUT=$DATADIRECTORY/03_trimmed
+FASTP="path to fastp executable"
+ADAPTERFILE=$DATADIRECTORY/00_scripts/adapters.fasta
+
+mkdir -p $DATAOUTPUT
+
+NAME=$(cat $DATADIRECTORY/00_scripts/base.txt | awk "NR==${PBS_ARRAY_INDEX}")
+echo -e ${PBS_ARRAY_INDEX}"\t"${NAME} >> $DATADIRECTORY/00_scripts/02_fastp_array_table.txt
+
+cd $DATAINPUT
+
+$FASTP
+fastp -i ${NAME}_R1_001.fastq.gz -I ${NAME}_R2_001.fastq.gz -o $DATAOUTPUT/${NAME}_R1_paired.fastq.gz -O $DATAOUTPUT/${NAME}_R2_paired.fastq.gz --adapter_fasta $ADAPTERFILE --trim_poly_g --average_qual 28 --length_required 50 --thread 28 &> $DATADIRECTORY/00_scripts/fastp_${NAME}.log
+
+

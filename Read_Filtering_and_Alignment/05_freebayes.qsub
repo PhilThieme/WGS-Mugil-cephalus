@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+#PBS -q omp
+#PBS -l ncpus=
+#PBS -l mem= gb
+#PBS -l walltime=720:00:00
+#PBS -N 05_freebayes
+
+DATADIRECTORY=$DATAWORK/Mcephalus
+DATAINPUT=$DATADIRECTORY/04_mapped
+DATAOUTPUT=$DATADIRECTORY/05_SNP_table
+REF=$DATADIRECTORY/01_info_files/genome_M_cephalus_oneliner.fna
+NB_CPU=64
+nAlleles=4
+FREEBAYESENV="path to freebayes executable"
+
+mkdir -p $DATAOUTPUT
+cd $DATAINPUT
+ls *_paired.sorted_MD.bam > bam_list_freebayes.txt
+
+$FREEBAYESENV
+cd $DATAINPUT
+freebayes -f $REF --use-best-n-alleles $nAlleles -C 2 --genotype-qualities -L bam_list_freebayes.txt > $DATAOUTPUT/mugil_raw.vcf
+

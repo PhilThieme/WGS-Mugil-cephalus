@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+#PBS -q omp
+#PBS -l ncpus=
+#PBS -l mem= gb
+#PBS -l walltime=08:00:00
+#PBS -J 1-39
+#PBS -N 05_bwa
+
+DATADIRECTORY=Path/to/working/directory
+DATAINPUT=$DATADIRECTORY/03_trimmed
+DATAOUTPUT=$DATADIRECTORY/04_mapped
+GENOME=$DATADIRECTORY/01_info_files/genome_M_cephalus_oneliner.fna
+TMPDIR= $SCRATCH
+
+BWAENV="path to bwa executable"
+SAMBAMBA="path to sambamba executable"
+
+mkdir -p $DATAOUTPUT
+cd $DATAINPUT
+
+NAME=$(cat $DATADIRECTORY/00_scripts/base.txt | awk "NR==${PBS_ARRAY_INDEX}")
+echo -e ${PBS_ARRAY_INDEX}"\t"${NAME} >> $DATADIRECTORY/00_scripts/05_bwa_remap_array_table.txt
+
+$BWAENV
+
+bwa mem -t 15 -M $GENOME -R '@RG\tID:'${NAME}'\tSM:'${NAME}'\tPL:illumina\tLB:lib1\tPU:unit1' ${NAME}_R1_paired.fastq.gz ${NAME}_R2_paired.fastq.gz > $DATAOUTPUT/${NAME}.sam
+conda deactivate
+
+cd $DATAOUTPUT
+$SAMBAMBA
+
+sambamba view -t 15 -S -f bam ${NAME}.sam > ${NAME}.bam
+rm ${NAME}.sam
+sambamba view -f bam -F "proper_pair" ${NAME}.bam  > ${NAME}_paired.bam
+rm ${NAME}.bam
+sambamba sort ${NAME}_paired.bam
+rm ${NAME}_paired.bam
+sambamba index -t 15 ${NAME}_paired.sorted.bam
+
+conda deactivate
+

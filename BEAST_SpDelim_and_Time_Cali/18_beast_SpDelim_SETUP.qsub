@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#PBS -q omp
+#PBS -l ncpus=49
+#PBS -l mem= gb
+#PBS -l walltime=01:00:00
+#PBS -N 18_beast_spdelim_SETUP
+
+DATADIRECTORY=path/to/working/directory
+DATAINPUT=$DATADIRECTORY/08_SNAPP/SpDelim
+
+cd $DATAINPUT
+
+source /etc/profile.d/modules.sh
+module load singularity/3.6.4
+sif=/appli/bioinfo/beast2/2.6.7/singularity/beast2-2.6.7.sif
+
+#Species Delimitation
+singularity exec -B $DATAINPUT ${sif} beast -threads 48 -seed 123456 SNAPP_SpDelim_A_CLUSTER.xml >& $PBS_JOBNAME.e${PBS_JOBID%.*} 2>&1

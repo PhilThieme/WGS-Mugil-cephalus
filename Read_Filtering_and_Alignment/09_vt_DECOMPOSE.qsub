@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+#PBS -q sequentiel
+#PBS -l walltime=24:00:00
+#PBS -l mem=24g
+#PBS -N 09_vt_decompose
+
+DATADIRECTORY=path/to/working/directory
+DATAINPUT=$DATADIRECTORY/05_SNP_table
+STORAGE=$SCRATCH/
+REF=$DATADIRECTORY/01_info_files/genome_M_cephalus_oneliner.fna
+VTENV="path to vt executables"
+
+$VTENV
+cd $DATAINPUT
+
+vt normalize run_PI-4501.vcf -r $REF -o $STORAGE/run_PI-4501n.vcf
+vt decompose_blocksub -a $STORAGE/run_PI-4501n.vcf -o run_PI-4501nd.vcf
+cd $STORAGE
+rm run_PI-4501n.vcf
+conda deactivate

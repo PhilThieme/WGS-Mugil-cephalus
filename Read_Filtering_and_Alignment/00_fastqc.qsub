@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+#PBS -q omp
+#PBS -l ncpus=
+#PBS -l mem= gb
+#PBS -l walltime=
+#PBS -J 1-78
+#PBS -N 00_fastqc_raw
+
+DATADIRECTORY=path/to/working/directory
+DATAINPUT=$DATADIRECTORY/02_data
+DATAOUTPUT=$DATADIRECTORY/02_data/raw_QC
+FASTQCENV="path to fastqc executable"
+
+mkdir -p $DATAOUTPUT
+cd $DATAINPUT
+
+# Assign array nb to file
+# Have a "base_fastqc.txt" file containing names of all samples
+NAME=$(cat $DATADIRECTORY/00_scripts/base_fastqc.txt | awk "NR==${PBS_ARRAY_INDEX}")
+
+#save array table correspondance
+echo -e ${PBS_ARRAY_INDEX}"\t"${NAME} >> $DATADIRECTORY/00_scripts/00_fastqc_raw_array_table.txt
+
+$FASTQCENV
+
+fastqc ${NAME}_001.fastq.gz -o $DATAOUTPUT
+
+
