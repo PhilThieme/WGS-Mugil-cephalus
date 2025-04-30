@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#PBS -q omp
+#PBS -l ncpus=
+#PBS -l walltime=96:00:00
+#PBS -l mem= g
+#PBS -N 14_raXml_variant
+
+DATADIRECTORY=path/to/working/directory
+DATAINPUT=$DATADIRECTORY/06_SNP_Alignment
+DATAOUTPUT=$DATADIRECTORY/07_RAxML_analysis
+raxmlENV="path to RAxML executable"
+
+mkdir -p $DATAOUTPUT
+
+$raxmlENV
+cd $DATAINPUT
+
+raxmlHPC-PTHREADS -T 50 -f a -s PI1_for_RAxML.fasta -w $DATAOUTPUT -n PI1_RAxML -p 123456 -x 123458 -# 1000 -m GTRGAMMA
+conda deactivate

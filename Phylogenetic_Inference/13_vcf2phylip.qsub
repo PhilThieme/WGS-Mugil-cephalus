@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+#PBS -q sequentiel
+#PBS -l walltime=24:00:00
+#PBS -l mem= g
+#PBS -N 13_vcf2phylip
+
+DATADIRECTORY=path/to/working/directory
+DATAINPUT=$DATADIRECTORY/05_SNP_table
+DATAOUTPUT=$DATADIRECTORY/06_SNP_Alignment
+FUNCTIONINPUT=path/to//vcf2phylip
+
+mkdir -p $DATAOUTPUT
+cd $FUNCTIONINPUT
+
+./vcf2phylip.py --input $DATAINPUT/PI1.vcf --output-folder $DATAOUTPUT --output-prefix PI1_for_RAxML -f
+
+#output-prefix: default input-name without extension
+#-f write FASTA-matrix
+#-w save a list of used sites
+#-n write a nexus-matrix
+#-r resolve heterozygous genotypes randomly (to avoid IUPAC code)
+#-m Minimum of samples required to be present at a locus (default=4)
+#-b Write a binary NEXUS matrix for analysis of biallelic SNPs in SNAPP, only diploid genotypes will be processed
