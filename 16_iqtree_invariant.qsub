@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#PBS -q omp
+#PBS -l ncpus=
+#PBS -l walltime=36:00:00
+#PBS -l mem= g
+#PBS -N 16_iqtree_invariant
+
+DATADIRECTORY=path/to/working/directory
+DATAINPUT=$DATADIRECTORY/06_SNP_Alignment
+DATAOUTPUT=$DATADIRECTORY/08_IQtree_analysis
+IQtreeENV="path to IQtree executable"
+
+mkdir -p $DATAOUTPUT
+
+$IQtreeENV
+cd $DATAINPUT
+
+iqtree -s PI2_for_IQtree.phy -T 50 --seqtype DNA -o 161_S38 -m TEST+ASC -B 1000 --bnni --seed 123
+conda deactivate
